@@ -1,6 +1,6 @@
 """
 Valorant Discord Profile Widget Automation Engine
-Features: Live Dynamic Valorant-API Asset Resolution Mapping
+Features: Live Dynamic Valorant-API Asset Resolution Mapping & Corrected Image Payloads
 """
 
 import os
@@ -121,7 +121,13 @@ def update_discord_widget(rank: str, rr: str, peak: str, level: str):
                 {"type": 1, "name": "rank_rr", "value": rr},
                 {"type": 1, "name": "rank_peak", "value": peak},
                 {"type": 1, "name": "level", "value": level},
-                {"type": 1, "name": "rank_icon", "value": live_rank_icon_url}
+                {
+                    "type": 3,  # Correct layout variant type designated for image rendering targets
+                    "name": "rank_icon",
+                    "value": {
+                        "url": live_rank_icon_url
+                    }
+                }
             ]
         }
     }
