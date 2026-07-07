@@ -111,7 +111,7 @@ first successful run, it updates automatically every 10 minutes.
 ``` bash
 pip install -r requirements.txt
 python update_stats.py
-
+```
 ------------------------------------------------------------------------
 
 ## 🧩 Widget Fields
