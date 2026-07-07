@@ -7,12 +7,12 @@ import json
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 logger = logging.getLogger(__name__)
 
-# Configuration: GitHub Actions injects these via environment variables
+# Configuration: Loaded via environment variables
 CONFIG = {
     "VAL_API_KEY": os.environ.get("VAL_API_KEY"),
-    "VAL_REGION": os.environ.get("VAL_REGION"),
-    "VAL_NAME": os.environ.get("VAL_NAME"),
-    "VAL_TAG": os.environ.get("VAL_TAG"),
+    "VAL_REGION": os.environ.get("VAL_REGION", "eu"),
+    "VAL_NAME": os.environ.get("VAL_NAME", "Freekill"),
+    "VAL_TAG": os.environ.get("VAL_TAG", "omen"),
     "DISCORD_BOT_TOKEN": os.environ.get("DISCORD_BOT_TOKEN"),
     "DISCORD_USER_ID": os.environ.get("DISCORD_USER_ID"),
     "DISCORD_APP_ID": os.environ.get("DISCORD_APP_ID")
@@ -23,7 +23,7 @@ def safe_str(value, length=100):
     return str(value)[:length]
 
 def fetch_live_rank_icon_url(rank_name: str) -> str:
-    fallback = "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/11/largeicon.png"
+    fallback = "https://media.valorant-api.com/competitivetiers/564d8e28-c226-3180-6285-e48a390db8b1/0/largeicon.png"
     try:
         resp = requests.get("https://valorant-api.com/v1/competitivetiers", timeout=10)
         if resp.status_code == 200:
@@ -40,8 +40,11 @@ def update_discord_widget():
     headers = {"Authorization": CONFIG["VAL_API_KEY"]} if CONFIG["VAL_API_KEY"] else {}
     
     try:
-        # Fetch Data
+        # Fetch MMR
         mmr_resp = requests.get(f"{base_url}/v2/mmr/{CONFIG['VAL_REGION']}/{CONFIG['VAL_NAME']}/{CONFIG['VAL_TAG']}", headers=headers, timeout=10)
+        if mmr_resp.status_code != 200:
+            logger.warning(f"MMR API returned status code: {mmr_resp.status_code}. Using runtime cache.")
+        
         mmr_payload = mmr_resp.json().get("data", {})
         current_data = mmr_payload.get("current_data", {})
         
@@ -58,7 +61,7 @@ def update_discord_widget():
         logger.error(f"API failure: {e}")
         return
 
-    # Prepare Payload
+    # Payload Construction
     payload = {
         "data": {
             "dynamic": [
@@ -72,10 +75,9 @@ def update_discord_widget():
         }
     }
     
-    # Log the payload so you can see it in GitHub Actions logs
+    # Log payload for debugging
     logger.info(f"DEBUG PAYLOAD: {json.dumps(payload, indent=2)}")
     
-    # Send Request
     url = f"https://discord.com/api/v9/applications/{CONFIG['DISCORD_APP_ID']}/users/{CONFIG['DISCORD_USER_ID']}/identities/0/profile"
     headers = {"Authorization": f"Bot {CONFIG['DISCORD_BOT_TOKEN']}", "Content-Type": "application/json"}
     
