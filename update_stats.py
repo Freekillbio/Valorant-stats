@@ -18,7 +18,7 @@ CONFIG = {
 }
 
 def fetch_live_rank_icon_url(rank_name: str) -> str:
-    fallback = "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/11/largeicon.png"
+    fallback = "https://media.valorant-api.com/competitivetiers/564d8e28-c226-3180-6285-e48a390db8b1/0/largeicon.png"
     try:
         resp = requests.get("https://valorant-api.com/v1/competitivetiers", timeout=10)
         if resp.status_code == 200:
