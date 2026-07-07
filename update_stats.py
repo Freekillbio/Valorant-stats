@@ -18,12 +18,12 @@ logger = logging.getLogger(__name__)
 
 # --- Configuration Loader (Secure GitHub Secrets Vault) ---
 CONFIG = {
-    "VAL_REGION": os.environ.get("VAL_REGION", "eu"),
-    "VAL_NAME": os.environ.get("VAL_NAME", "Freekill"),
-    "VAL_TAG": os.environ.get("VAL_TAG", "omen"),
+    "VAL_REGION": os.environ.get("VAL_REGION"),
+    "VAL_NAME": os.environ.get("VAL_NAME"),
+    "VAL_TAG": os.environ.get("VAL_TAG"),
     "DISCORD_BOT_TOKEN": os.environ.get("DISCORD_BOT_TOKEN"),
-    "DISCORD_USER_ID": os.environ.get("DISCORD_USER_ID", "641729900428132373"),
-    "DISCORD_APP_ID": os.environ.get("DISCORD_APP_ID", "1522736957300539402")
+    "DISCORD_USER_ID": os.environ.get("DISCORD_USER_ID"),
+    "DISCORD_APP_ID": os.environ.get("DISCORD_APP_ID")
 }
 
 def fetch_live_rank_icon(rank_name: str) -> str:
