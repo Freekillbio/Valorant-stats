@@ -41,6 +41,7 @@ automatically updates your Discord profile on a schedule.
 -   🌍 Account Region Config
 -   📈 Ranked Rating Progress (RR)
 -   🏆 Lifetime Peak Rank Tracker
+-   ⚡ Rank Icon
 -   ⚡ Account Level Progress
 -   ✍️ Custom Widget Profile Branding
 -   ⚡ Fully automated updates via GitHub Actions
