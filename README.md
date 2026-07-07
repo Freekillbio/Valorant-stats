@@ -124,6 +124,7 @@ Bind these field names in your Discord widget design:
 | `rank_rr`   | Number | 46                             |
 | `rank_peak` | Text   | Gold 1                         |
 | `level`     | Number | 196                            |
+| `rank_icon` | Number | Rank Icon                      |
 ------------------------------------------------------------------------
 ## 🏗 System Architecture
 
